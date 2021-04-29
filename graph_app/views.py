@@ -40,19 +40,14 @@ def index(request):
     # print(data.head())
     data.to_csv(r'D:\Internship - LSCG\Stocks_Data\Closing Stocks.csv', index=None)
     data_plot = pd.read_csv(r'D:\Internship - LSCG\Stocks_Data\Closing Stocks.csv')
-    data_plot.plot(x='Datetime', y=['AAPL', 'AMZN',
-                'FB', 'GOOG', 'MSFT', 'TSLA'], style='-')
-    data_plot.head()
-    fig = plt.figure(figsize=(15, 12))
-    plt.title('Relative price change')
-    plt.legend(loc='upper left', fontsize=12)
-    plt.tight_layout()
-    plt.grid(True)
-    # convert graph into dtring buffer and then we convert 64 bit code into image
-    buf = io.BytesIO()
-    fig.savefig(buf, format='jpg')
-    buf.seek(0)
-    string = base64.b64encode(buf.read())
-    uri = urllib.parse.quote(string)
 
-    return render(request, 'index.html', {"data": uri})
+    d1=data_plot['AMZN'].values.tolist() 
+    t=data_plot['Datetime'].values.tolist() 
+    d2=data_plot['TSLA'].values.tolist() 
+    d3=data_plot['FB'].values.tolist()
+    d4=data_plot['MSFT'].values.tolist()
+    d5=data_plot['AAPL'].values.tolist()
+    d6=data_plot['GOOG'].values.tolist()
+    context={'d1': d1,'t':t,'d2':d2, 'd3':d3, 'd4':d4, 'd5':d5,'d6':d6}
+
+    return render(request, 'index.html', context)
