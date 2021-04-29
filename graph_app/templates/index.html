@@ -10,7 +10,11 @@
 <body>
   <div>
     
-    <h1 style="text-align:center">Interactive Stocks</h1>
+    <h1 style="text-align:center">Interactive Stocks 1 </h1>
+    <div style="width: 600;height: 500;">
+    {{plt_div|safe}}
+    </div>
+    <h1 style="text-align:center">Interactive Stocks 2</h1>
     <canvas id="myChart"></canvas>
   </div>
 </body>
@@ -49,6 +53,7 @@ var myChart = new Chart(ctx, {
             ],
             data: {{msft|safe}},
         },
+        
         {
             label: 'Apple',
             backgroundColor: [

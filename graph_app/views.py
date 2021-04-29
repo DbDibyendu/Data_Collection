@@ -7,6 +7,7 @@ import sweetviz
 import plotly
 import plotly.graph_objects as go
 import plotly.express as px
+from plotly.offline import plot 
 
 import base64
 import urllib
@@ -18,8 +19,17 @@ from django.http import HttpResponse
 import requests
 import json
 
+import pandas as pd
+import plotly
+import plotly.graph_objects as go
+import plotly.express as px
+import plotly.offline as py
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
+from cryptocmd import CmcScraper
+
 
 @api_view()
 def index(request):
@@ -48,6 +58,50 @@ def index(request):
     msft=data_plot['MSFT'].values.tolist()
     aapl=data_plot['AAPL'].values.tolist()
     goog=data_plot['GOOG'].values.tolist()
-    context={"amzn":amzn, 'date':date, 'tsla':tsla, 'fb':fb, 'msft': msft, 'aapl': aapl,'goog':goog}
+    
+    fig = px.line(data_plot,x=data_plot['Datetime'],y=['AMZN','AAPL','MSFT','TSLA','FB','GOOG'],title='Interactive Stocks')
+    fig.update_layout(template='plotly_dark')
+    plt_div = plot(fig, output_type='div')
+
+    context={"amzn":amzn, 'date':date, 'tsla':tsla, 'fb':fb, 'msft': msft, 'aapl': aapl,'goog':goog, 'plt_div':plt_div}
 
     return render(request, 'index.html', context)
+
+
+@api_view()
+def index2(request):
+    #BITCOIN
+    scraper = CmcScraper("BTC")
+    headers, data = scraper.get_data()
+    xrp_json_data = scraper.get_data("json")
+    scraper.export("csv", name="btc_all_time")
+    df_BTC = scraper.get_dataframe()
+
+    fig = px.line(df_BTC,x=df_BTC['Date'],y=df_BTC['Close'])
+    fig.update_layout(template='plotly_dark',autosize=True,width=1500,height=800,)
+    graph1 = plot(fig, output_type='div')
+
+    #ETHEREUM
+    scraper = CmcScraper("ETH")
+    headers, data = scraper.get_data()
+    xrp_json_data = scraper.get_data("json")
+    scraper.export("csv", name="ETH_all_time")
+    df_ETH = scraper.get_dataframe()
+    fig = px.line(df_ETH,x=df_ETH['Date'],y=df_ETH['Close'])
+    #fig = plt.figure(figsize=(15,12))
+    fig.update_layout(template='plotly_dark',autosize=False,width=1500,height=900,)
+    graph2 = plot(fig, output_type='div')
+
+    #BINANCE_COIN
+    scraper = CmcScraper("BNB")
+    headers, data = scraper.get_data()
+    xrp_json_data = scraper.get_data("json")
+    scraper.export("csv", name="bnb_all_time")
+    df_BNB = scraper.get_dataframe()
+    fig = px.line(df_BNB,x=df_BNB['Date'],y=df_BNB['Close'])
+    #fig = plt.figure(figsize=(15,12))
+    fig.update_layout(template='plotly_dark',autosize=False,width=1500,height=900,)
+    graph3 = plot(fig, output_type='div')
+    
+    context={'graph1':graph1, 'graph2':graph2,'graph3':graph3}
+    return render(request, 'index2.html', context)
