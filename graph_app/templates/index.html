@@ -20,41 +20,41 @@ var ctx = document.getElementById('myChart');
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: {{t|safe}},
+        labels: {{date|safe}},
         datasets: [{
             label: 'amazon',
             backgroundColor: [
                 'rgb(0, 0, 0)',
             ],
-            data: {{d1|safe}},
+            data: {{amzn|safe}},
         },
         {
             label: 'Tesla',
             backgroundColor: [
                 'rgb(255, 34, 132)',
             ],
-            data: {{d2|safe}},
+            data: {{tsla|safe}},
         },
         {
             label: 'Facebook',
             backgroundColor: [
                 'rgb(151, 255, 255)',
             ],
-            data: {{d3|safe}},
+            data: {{fb|safe}},
         },
         {
             label: 'Microsoft',
             backgroundColor: [
                 'rgb(89, 99, 132)',
             ],
-            data: {{d4|safe}},
+            data: {{msft|safe}},
         },
         {
             label: 'Apple',
             backgroundColor: [
                 'rgb(255, 99, 45)',
             ],
-            data: {{d5|safe}},
+            data: {{aapl|safe}},
         }]
     },
     chartArea: {
