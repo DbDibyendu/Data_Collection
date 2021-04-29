@@ -29,6 +29,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from cryptocmd import CmcScraper
+from prophet.plot import plot_plotly, plot_components_plotly
+from fbprophet import Prophet
 
 
 @api_view()
@@ -102,6 +104,23 @@ def index2(request):
     #fig = plt.figure(figsize=(15,12))
     fig.update_layout(template='plotly_dark',autosize=False,width=1500,height=900,)
     graph3 = plot(fig, output_type='div')
-    
-    context={'graph1':graph1, 'graph2':graph2,'graph3':graph3}
+
+    #Prediction using Facebook Prophet
+    #BTC
+    df_BTC_proph = df_BTC[['Date', 'Close']] 
+    df_BTC_proph = df_BTC.rename(columns={'Date':'ds', 'Close':'y'}) 
+    m=Prophet()
+    m.fit(df_BTC_proph)
+    future = m.make_future_dataframe(periods=365)
+    forecast = m.predict(future)
+
+    data=plot_plotly(m, forecast,xlabel='Date', ylabel='Close')  
+    data.update_layout(autosize=False,width=1500,height=900,)
+    graph4 = plot(data, output_type='div')
+
+    data=plot_components_plotly(m, forecast)
+    data.update_layout(autosize=False,width=1500,height=900,)
+    graph5 = plot(data, output_type='div')
+
+    context={'graph1':graph1, 'graph2':graph2,'graph3':graph3,'graph4':graph4,'graph5':graph5}
     return render(request, 'index2.html', context)
