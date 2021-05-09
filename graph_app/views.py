@@ -162,4 +162,5 @@ def index2(request):
 
     context = {'graph1': graph1, 'graph2': graph2, 'graph3': graph3, 'graph4': graph4,
                'graph5': graph5, 'graph6': graph6, 'graph7': graph7, 'graph8': graph8, 'graph9': graph9}
+               
     return render(request, 'index2.html', context)

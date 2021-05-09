@@ -1,74 +1,95 @@
 <!doctype html>
 <html lang="en">
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <head>
-  <title>Hello, world!</title>
+    <title>Hello, world!</title>
 </head>
 
 <body>
-  <div>
-    
-    <h1 style="text-align:center">Interactive Stocks 1 </h1>
-    <div style="width: 600;height: 500;">
-    {{plt_div|safe}}
+    <div>
+
+        <h1 style="text-align:center">Interactive Stocks 1 </h1>
+        <div style="width: 600;height: 500;">
+            {{plt_div|safe}}
+        </div>
+        <canvas id="myChart"></canvas>
     </div>
-    <h1 style="text-align:center">Interactive Stocks 2</h1>
-    <canvas id="myChart"></canvas>
-  </div>
 </body>
 
 <script>
-var ctx = document.getElementById('myChart');
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: {{date|safe}},
-        datasets: [{
-            label: 'amazon',
-            backgroundColor: [
-                'rgb(0, 0, 0)',
-            ],
-            data: {{amzn|safe}},
+    var ctx = document.getElementById('myChart');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {
+                {
+                    date | safe
+                }
+            },
+            datasets: [{
+                    label: 'amazon',
+                    backgroundColor: [
+                        'rgb(0, 0, 0)',
+                    ],
+                    data: {
+                        {
+                            amzn | safe
+                        }
+                    },
+                }, {
+                    label: 'Tesla',
+                    backgroundColor: [
+                        'rgb(255, 34, 132)',
+                    ],
+                    data: {
+                        {
+                            tsla | safe
+                        }
+                    },
+                }, {
+                    label: 'Facebook',
+                    backgroundColor: [
+                        'rgb(151, 255, 255)',
+                    ],
+                    data: {
+                        {
+                            fb | safe
+                        }
+                    },
+                }, {
+                    label: 'Microsoft',
+                    backgroundColor: [
+                        'rgb(89, 99, 132)',
+                    ],
+                    data: {
+                        {
+                            msft | safe
+                        }
+                    },
+                },
+
+                {
+                    label: 'Apple',
+                    backgroundColor: [
+                        'rgb(255, 99, 45)',
+                    ],
+                    data: {
+                        {
+                            aapl | safe
+                        }
+                    },
+                }
+            ]
         },
-        {
-            label: 'Tesla',
-            backgroundColor: [
-                'rgb(255, 34, 132)',
-            ],
-            data: {{tsla|safe}},
-        },
-        {
-            label: 'Facebook',
-            backgroundColor: [
-                'rgb(151, 255, 255)',
-            ],
-            data: {{fb|safe}},
-        },
-        {
-            label: 'Microsoft',
+        chartArea: {
             backgroundColor: [
                 'rgb(89, 99, 132)',
             ],
-            data: {{msft|safe}},
-        },
-        
-        {
-            label: 'Apple',
-            backgroundColor: [
-                'rgb(255, 99, 45)',
-            ],
-            data: {{aapl|safe}},
-        }]
-    },
-    chartArea: {
-        backgroundColor: [
-                'rgb(89, 99, 132)',
-            ],
-    }
-  
-});
+        }
+
+    });
 </script>
 
 </html>
