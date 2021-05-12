@@ -8,4 +8,4 @@ class InteractiveSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = InteractiveModels
-        fields = ["companycode"]
+        fields =  ["crypto"]

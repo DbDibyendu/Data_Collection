@@ -7,7 +7,6 @@ from django.db import models
 
 class InteractiveModels(models.Model):
 
-    companycode = models.CharField(max_length = 256)
-
+    crypto = models.CharField(max_length = 256,null=True)
     def __str__(self):
         return self.companycode 
