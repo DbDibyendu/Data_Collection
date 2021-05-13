@@ -62,4 +62,4 @@ class CryptoAPI(APIView):
 
         context = {'graph1': graph1}
 
-        return render(request, 'index2.html', context)
+        return Response(context)
