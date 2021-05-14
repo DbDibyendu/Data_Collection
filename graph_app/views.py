@@ -63,3 +63,31 @@ class CryptoAPI(APIView):
         context = {'graph1': graph1}
 
         return Response(context)
+
+class Forecast(APIView):
+    serializer_class = InteractiveSerializer
+    
+    def post(self, request, format=None):
+        coin = request.data.get('crypto')
+        scraper = CmcScraper(coin)
+        headers, data = scraper.get_data()
+        xrp_json_data = scraper.get_data("json")
+        scraper.export("csv", name="btc_all_time")
+        df_BTC = scraper.get_dataframe()
+        df_BTC_proph = df_BTC[['Date', 'Close']] 
+        df_BTC_proph = df_BTC.rename(columns={'Date':'ds', 'Close':'y'}) 
+        m=Prophet()
+        m.fit(df_BTC_proph)
+        future = m.make_future_dataframe(periods=365)
+        forecast = m.predict(future)
+        fig1 = plot_plotly(m, forecast,xlabel='Date', ylabel='Close')
+        fig1.update_layout(autosize=True,width=1500, height=800)
+        graph1 = plot(fig1, output_type='div')
+
+        fig2 = plot_components_plotly(m, forecast)
+        fig2.update_layout(autosize=True,width=1500, height=800)
+        graph2 = plot(fig2, output_type='div')
+
+        context={'graph1':graph1, 'graph2':graph2}
+        return Response(context)
+        # return render(request,'index2.html',context)
