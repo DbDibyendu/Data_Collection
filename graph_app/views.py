@@ -26,8 +26,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from cryptocmd import CmcScraper
-from prophet.plot import plot_plotly, plot_components_plotly
-from fbprophet import Prophet
 from django.shortcuts import render
 from django.http import HttpResponse
 import requests
