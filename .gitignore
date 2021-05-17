@@ -3,3 +3,4 @@ grah_app/
 templates
 
 *.csv
+*.sqlite3
