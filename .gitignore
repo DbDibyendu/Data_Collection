@@ -1,2 +1,3 @@
 /venv
-/grah_app/templates
+./grah_app/
+templates
