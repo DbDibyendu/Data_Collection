@@ -34,7 +34,8 @@ import json
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import permissions
-from .models import InteractiveModels,StocksCompanyModels
+from .models import InteractiveModels
+from .models import StocksCompanyModels
 from .serializers import InteractiveSerializer,StocksCompanySerializer
 
 
@@ -62,10 +63,10 @@ class StocksCompanyAPI(APIView):
     serializer_class =  StocksCompanySerializer 
 
 
-    def post(self , request , format = None):
+    def post(self , request):
         input_stock_ticker = request.data.get('companycode')
 
-    
+        # print(input_stock_ticker);
         data_stocks = yf.Ticker(input_stock_ticker)
         data_fetch = data_stocks.history(period='1d', interval='1m')
         raw_data = pd.DataFrame(data=data_fetch)
